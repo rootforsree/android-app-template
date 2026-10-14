@@ -1,3 +1,5 @@
+import org.gradle.api.artifacts.VersionCatalogsExtension
+
 plugins {
     // Versionless ids: the plugin markers are on build-logic's classpath
     // (see build-logic/build.gradle.kts), so the ids resolve from there.
@@ -7,6 +9,11 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
 }
+
+// The type-safe `libs` accessor is not generated for precompiled script
+// plugins, so look the catalog up explicitly (resolves against the target
+// project at apply time).
+val libs = the<VersionCatalogsExtension>().named("libs")
 
 dependencies {
     add("implementation", libs.findLibrary("hilt-android").get())

@@ -1,8 +1,15 @@
 import com.android.build.api.dsl.LibraryExtension
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+
+// The type-safe `libs` accessor is not generated for precompiled script
+// plugins, so look the catalog up explicitly. At apply time this resolves
+// against the target project, whose `libs` catalog is the root TOML.
+val libs = the<VersionCatalogsExtension>().named("libs")
 
 plugins {
     // Versionless: the plugin marker is on build-logic's classpath
@@ -34,9 +41,13 @@ extensions.configure<LibraryExtension> {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
-            all { useJUnitPlatform() }
         }
     }
+}
+
+// JUnit Platform for all unit-test tasks (Roborazzi runs on it).
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
 
 extensions.configure<JavaPluginExtension> {
