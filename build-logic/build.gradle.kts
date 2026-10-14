@@ -2,11 +2,8 @@ plugins {
     `kotlin-dsl`
 }
 
-repositories {
-    gradlePluginPortal()
-    google()
-    mavenCentral()
-}
+// No repositories block here: settings.gradle.kts centralizes all repositories
+// (RepositoriesMode.PREFER_SETTINGS), so a project-level block fails the build.
 
 // Every plugin a convention plugin may apply by id must be on this classpath.
 // Versions come from the version catalog, so pins live in exactly one place.
