@@ -52,7 +52,7 @@ jobs:
           validate-wrappers: true
 
       - name: Accept Android SDK licenses
-        run: (yes || true) | sdkmanager --licenses
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
 
       - name: Make gradlew executable
         run: chmod +x gradlew
