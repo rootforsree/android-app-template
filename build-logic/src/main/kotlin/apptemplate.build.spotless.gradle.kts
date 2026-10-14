@@ -18,12 +18,12 @@ spotless {
         targetExclude("**/build/**")
         // Line length (120) and indent (4) come from the root .editorconfig;
         // ktlint reads it automatically.
-        ktlint(libs.findVersion("ktlint").get())
+        ktlint(libs.findVersion("ktlint").get().requiredVersion)
     }
     kotlinGradle {
         target("**/*.gradle.kts")
         targetExclude("**/build/**")
-        ktlint(libs.findVersion("ktlint").get())
+        ktlint(libs.findVersion("ktlint").get().requiredVersion)
     }
 }
 // spotlessCheck is wired into `check` by the Spotless plugin itself.
