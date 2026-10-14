@@ -46,12 +46,15 @@ jobs:
         run: chmod +x gradlew
 
       - name: Restore keystore
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
         run: |
-          umask 077
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$RUNNER_TEMP/release.jks"
-          chmod 600 "$RUNNER_TEMP/release.jks"
-          echo "KEYSTORE_PATH=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+          if [ -n "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ]; then
+            umask 077
+            echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$RUNNER_TEMP/release.jks"
+            chmod 600 "$RUNNER_TEMP/release.jks"
+            echo "KEYSTORE_PATH=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+          else
+            echo "No keystore secret present; release APK will be debug-signed." >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Assemble APKs
         run: ./gradlew assembleDebug assembleRelease --stacktrace
