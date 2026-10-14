@@ -1,5 +1,8 @@
 plugins {
-    alias(libs.plugins.spotless)
+    // Versionless: the plugin marker is on build-logic's classpath.
+    // alias(libs.plugins.*) does NOT work here: the version catalog is not
+    // in scope inside a precompiled script plugin's plugins {} block.
+    id("com.diffplug.spotless")
 }
 
 spotless {

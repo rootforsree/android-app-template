@@ -5,7 +5,11 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 plugins {
-    alias(libs.plugins.android.library)
+    // Versionless: the plugin marker is on build-logic's classpath
+    // (see build-logic/build.gradle.kts), so the id resolves from there.
+    // alias(libs.plugins.*) does NOT work here: the version catalog is not
+    // in scope inside a precompiled script plugin's plugins {} block.
+    id("com.android.library")
 }
 
 // AGP 9 rule: org.jetbrains.kotlin.android is NEVER applied. AGP 9 builds

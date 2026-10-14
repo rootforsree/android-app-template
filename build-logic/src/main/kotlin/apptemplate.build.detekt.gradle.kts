@@ -2,7 +2,10 @@ import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 
 plugins {
-    alias(libs.plugins.detekt)
+    // Versionless: the plugin marker is on build-logic's classpath.
+    // alias(libs.plugins.*) does NOT work here: the version catalog is not
+    // in scope inside a precompiled script plugin's plugins {} block.
+    id("io.gitlab.arturbosch.detekt")
 }
 
 // detekt.yml ships as a build-logic resource so every module shares one config.

@@ -1,7 +1,11 @@
 plugins {
-    alias(libs.plugins.hilt)
+    // Versionless ids: the plugin markers are on build-logic's classpath
+    // (see build-logic/build.gradle.kts), so the ids resolve from there.
+    // alias(libs.plugins.*) does NOT work here: the version catalog is not
+    // in scope inside a precompiled script plugin's plugins {} block.
     // KSP for all annotation processors. KAPT is dead, never use it.
-    alias(libs.plugins.ksp)
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
 }
 
 dependencies {
