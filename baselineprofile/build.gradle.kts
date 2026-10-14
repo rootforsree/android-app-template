@@ -14,8 +14,8 @@ android {
     }
 
     targetProjectPath = ":app"
-    // The generator runs against the release build type of :app.
-    testBuildType = "release"
+    // No testBuildType here: AGP 9 removed it from the test module DSL, and the
+    // baselineprofile producer plugin targets the release build type by default.
 }
 
 dependencies {
