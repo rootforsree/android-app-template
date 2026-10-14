@@ -19,20 +19,22 @@ plugins {
 val versionCodeProp = providers.gradleProperty("versionCode").getOrElse("1").toInt()
 val versionNameProp = providers.gradleProperty("versionName").getOrElse("1.0.0-dev")
 
-signingConfigs {
-    create("release") {
-        val keystorePath = System.getenv("KEYSTORE_PATH")
-        if (!keystorePath.isNullOrBlank()) {
-            storeFile = file(keystorePath)
-            storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
-            keyAlias = System.getenv("ANDROID_KEY_ALIAS")
-            keyPassword = System.getenv("ANDROID_KEY_PASSWORD")
-        }
-    }
-}
-
 extensions.configure<ApplicationExtension> {
     namespace = "com.sreecharan.apptemplate"
+
+    // signingConfigs lives on the Android extension: at the top level of a
+    // Kotlin DSL script it is an unresolved reference.
+    signingConfigs {
+        create("release") {
+            val keystorePath = System.getenv("KEYSTORE_PATH")
+            if (!keystorePath.isNullOrBlank()) {
+                storeFile = file(keystorePath)
+                storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("ANDROID_KEY_ALIAS")
+                keyPassword = System.getenv("ANDROID_KEY_PASSWORD")
+            }
+        }
+    }
 
     defaultConfig {
         applicationId = "com.sreecharan.apptemplate"
@@ -65,7 +67,7 @@ extensions.configure<ApplicationExtension> {
     // Consume the baseline profile produced by :baselineprofile at build time.
     baselineProfile {
         variants {
-            release {
+            create("release") {
                 from(project(":baselineprofile"))
             }
         }
