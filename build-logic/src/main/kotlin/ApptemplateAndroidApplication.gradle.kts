@@ -11,7 +11,7 @@ plugins {
 // AGP 9 rule: org.jetbrains.kotlin.android is NEVER applied. AGP 9 builds
 // Kotlin itself and registers the Kotlin extension below on its own.
 extensions.configure<ApplicationExtension> {
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 26

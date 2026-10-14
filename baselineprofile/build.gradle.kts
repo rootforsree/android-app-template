@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.sreecharan.apptemplate.baselineprofile"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         // Macrobenchmark needs API 28+.

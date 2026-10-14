@@ -57,7 +57,7 @@ jobs:
           fi
 
       - name: Assemble APKs
-        run: ./gradlew assembleDebug assembleRelease --stacktrace
+        run: ./gradlew assembleDebug assembleRelease -PversionCode=${{ github.run_number }} --stacktrace
         env:
           KEYSTORE_PATH: ${{ env.KEYSTORE_PATH }}
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
