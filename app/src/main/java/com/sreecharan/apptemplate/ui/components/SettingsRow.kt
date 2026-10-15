@@ -56,7 +56,7 @@ fun SettingsRow(
             }
         }
     val interaction =
-        interactionModifier(
+        Modifier.interactionModifier(
             toggleableValue = toggleableValue,
             selectableSelected = selectableSelected,
             onClick = onClick,
@@ -119,7 +119,7 @@ private fun RowScope.SettingsRowContent(
     }
 }
 
-private fun interactionModifier(
+private fun Modifier.interactionModifier(
     toggleableValue: Boolean?,
     selectableSelected: Boolean?,
     onClick: (() -> Unit)?,

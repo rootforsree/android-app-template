@@ -4,11 +4,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.sp
 import com.sreecharan.apptemplate.ui.theme.AppDimens
 import com.sreecharan.apptemplate.ui.theme.AppTypography
 import com.sreecharan.apptemplate.ui.theme.LocalAppColors
-import java.util.Locale
 
 /**
  * Grouped-list section header: 13sp uppercase secondary label, aligned with
@@ -19,8 +19,10 @@ fun SectionHeader(
     title: String,
     modifier: Modifier = Modifier,
 ) {
+    // Read through LocalConfiguration so the header recomposes on locale change.
+    val locale = LocalConfiguration.current.locales.get(0)
     Text(
-        text = title.uppercase(Locale.getDefault()),
+        text = title.uppercase(locale),
         style = AppTypography.footnote.copy(letterSpacing = 0.5.sp),
         color = LocalAppColors.current.secondaryLabel,
         modifier =

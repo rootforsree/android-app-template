@@ -2,7 +2,6 @@ package com.sreecharan.apptemplate.ui.about
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,6 +26,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.core.net.toUri
 import com.sreecharan.apptemplate.BuildConfig
 import com.sreecharan.apptemplate.R
 import com.sreecharan.apptemplate.ui.components.GroupCard
@@ -41,11 +41,13 @@ import com.sreecharan.apptemplate.ui.theme.LocalAppColors
 @Composable
 fun AboutRoute() {
     val context = LocalContext.current
+    val githubUrl = stringResource(R.string.about_github_url)
+    val rateUrl = stringResource(R.string.about_rate_url)
     AboutScreenContent(
         appVersion = BuildConfig.VERSION_NAME,
-        onOpenGitHub = { openUrl(context, context.getString(R.string.about_github_url)) },
+        onOpenGitHub = { openUrl(context, githubUrl) },
         onShareApp = { shareApp(context) },
-        onRateApp = { openUrl(context, context.getString(R.string.about_rate_url)) },
+        onRateApp = { openUrl(context, rateUrl) },
     )
 }
 
@@ -118,21 +120,21 @@ private fun LazyListScope.aboutLinksSection(
 ) {
     item(key = "links", contentType = "links") {
         GroupCard {
-            linkRow(
+            LinkRow(
                 titleRes = R.string.about_github_title,
                 subtitleRes = R.string.about_github_sub,
                 icon = Icons.Filled.Code,
                 onClick = onOpenGitHub,
             )
             RowDivider()
-            linkRow(
+            LinkRow(
                 titleRes = R.string.about_share_title,
                 subtitleRes = R.string.about_share_sub,
                 icon = Icons.Filled.Share,
                 onClick = onShareApp,
             )
             RowDivider()
-            linkRow(
+            LinkRow(
                 titleRes = R.string.about_rate_title,
                 subtitleRes = R.string.about_rate_sub,
                 icon = Icons.Filled.Star,
@@ -143,7 +145,7 @@ private fun LazyListScope.aboutLinksSection(
 }
 
 @Composable
-private fun linkRow(
+private fun LinkRow(
     titleRes: Int,
     subtitleRes: Int,
     icon: ImageVector,
@@ -177,7 +179,7 @@ private fun openUrl(
     context: Context,
     url: String,
 ) {
-    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+    context.startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
 }
 
 private fun shareApp(context: Context) {
