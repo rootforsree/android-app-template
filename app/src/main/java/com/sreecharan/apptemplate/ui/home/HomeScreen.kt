@@ -125,7 +125,7 @@ fun HomeScreenContent(
                         contentPadding = PaddingValues(bottom = AppDimens.tabBarClearance),
                     ) {
                         items(
-                            items = state.notes,
+                            state.notes,
                             key = { note -> note.id },
                             contentType = { "note" },
                         ) { note ->
