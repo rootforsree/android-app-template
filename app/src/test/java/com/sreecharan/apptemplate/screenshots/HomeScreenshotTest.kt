@@ -3,7 +3,6 @@ package com.sreecharan.apptemplate.screenshots
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.github.takahirom.roborazzi.roborazziSystemPropertyOutputDirectory
-import java.io.File
 import com.sreecharan.apptemplate.data.model.Note
 import com.sreecharan.apptemplate.ui.home.HomeScreenContent
 import com.sreecharan.apptemplate.ui.home.HomeUiState
@@ -13,6 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.GraphicsMode
+import java.io.File
 
 /**
  * Roborazzi golden tests for the home screen.

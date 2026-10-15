@@ -3,7 +3,6 @@ package com.sreecharan.apptemplate.screenshots
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.github.takahirom.roborazzi.roborazziSystemPropertyOutputDirectory
-import java.io.File
 import com.sreecharan.apptemplate.data.model.ThemeMode
 import com.sreecharan.apptemplate.ui.settings.SettingsScreenContent
 import com.sreecharan.apptemplate.ui.settings.SettingsUiState
@@ -12,6 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.GraphicsMode
+import java.io.File
 
 /**
  * Roborazzi golden tests for the settings screen.
