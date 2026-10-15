@@ -7,10 +7,10 @@ import com.sreecharan.apptemplate.data.model.ThemeMode
 import com.sreecharan.apptemplate.ui.settings.SettingsScreenContent
 import com.sreecharan.apptemplate.ui.settings.SettingsUiState
 import com.sreecharan.apptemplate.ui.theme.AppTheme
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.robolectric.annotation.GraphicsMode
+import org.robolectric.junit5.RobolectricExtension
 import java.io.File
 
 /**
@@ -20,7 +20,7 @@ import java.io.File
  * Deterministic fixtures only; haptics disabled so no platform side effects.
  */
 @OptIn(ExperimentalRoborazziApi::class)
-@RunWith(RobolectricTestRunner::class)
+@ExtendWith(RobolectricExtension::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class SettingsScreenshotTest {
     @Test

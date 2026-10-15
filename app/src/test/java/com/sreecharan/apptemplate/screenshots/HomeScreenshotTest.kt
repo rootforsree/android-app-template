@@ -8,10 +8,10 @@ import com.sreecharan.apptemplate.ui.home.HomeScreenContent
 import com.sreecharan.apptemplate.ui.home.HomeUiState
 import com.sreecharan.apptemplate.ui.theme.AppTheme
 import kotlinx.collections.immutable.persistentListOf
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.robolectric.annotation.GraphicsMode
+import org.robolectric.junit5.RobolectricExtension
 import java.io.File
 
 /**
@@ -21,7 +21,7 @@ import java.io.File
  * All states are fabricated deterministic fixtures; no repository, no network.
  */
 @OptIn(ExperimentalRoborazziApi::class)
-@RunWith(RobolectricTestRunner::class)
+@ExtendWith(RobolectricExtension::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class HomeScreenshotTest {
     private val sampleNotes =

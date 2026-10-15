@@ -146,6 +146,7 @@ dependencies {
     testImplementation(libs.roborazzi)
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.robolectric)
+    testImplementation(libs.robolectric.junit5)
     testImplementation(libs.compose.ui.test.junit4)
 }
 
