@@ -36,6 +36,6 @@
     <string name="share_chooser_title">Share App Template</string>
     <string name="share_text">Check out App Template</string>
 
-    <string name="about_github_url" translatable="false">https://github.com/rootforsree/app-template</string>
+    <string name="about_github_url" translatable="false">https://github.com/rootforsree/android-app-template</string>
     <string name="about_rate_url" translatable="false">https://play.google.com/store/apps/details?id=com.sreecharan.apptemplate</string>
 </resources>

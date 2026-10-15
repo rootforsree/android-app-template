@@ -21,6 +21,9 @@ dependencies {
         "org.jetbrains.kotlin.plugin.compose:org.jetbrains.kotlin.plugin.compose.gradle.plugin:${libs.versions.kotlin.get()}",
     )
     implementation(
+        "org.jetbrains.kotlin.plugin.serialization:org.jetbrains.kotlin.plugin.serialization.gradle.plugin:${libs.versions.kotlin.get()}",
+    )
+    implementation(
         "com.google.dagger.hilt.android:com.google.dagger.hilt.android.gradle.plugin:${libs.versions.hilt.get()}",
     )
     implementation("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${libs.versions.ksp.get()}")
