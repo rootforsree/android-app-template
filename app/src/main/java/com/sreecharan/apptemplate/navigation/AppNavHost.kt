@@ -53,23 +53,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val destination = backStackEntry?.destination
-    val tabs = persistentListOf(
-        TabItem(
-            label = stringResource(R.string.tab_home),
-            selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home,
-        ),
-        TabItem(
-            label = stringResource(R.string.tab_settings),
-            selectedIcon = Icons.Filled.Settings,
-            unselectedIcon = Icons.Outlined.Settings,
-        ),
-        TabItem(
-            label = stringResource(R.string.tab_about),
-            selectedIcon = Icons.Filled.Info,
-            unselectedIcon = Icons.Outlined.Info,
-        ),
-    )
+    val tabs = rememberTabs()
     val selectedIndex = when {
         destination?.hasRoute(HomeRoute::class) == true -> 0
         destination?.hasRoute(SettingsRoute::class) == true -> 1
@@ -114,3 +98,22 @@ fun AppNavHost(modifier: Modifier = Modifier) {
         )
     }
 }
+
+@Composable
+private fun rememberTabs() = persistentListOf(
+    TabItem(
+        label = stringResource(R.string.tab_home),
+        selectedIcon = Icons.Filled.Home,
+        unselectedIcon = Icons.Outlined.Home,
+    ),
+    TabItem(
+        label = stringResource(R.string.tab_settings),
+        selectedIcon = Icons.Filled.Settings,
+        unselectedIcon = Icons.Outlined.Settings,
+    ),
+    TabItem(
+        label = stringResource(R.string.tab_about),
+        selectedIcon = Icons.Filled.Info,
+        unselectedIcon = Icons.Outlined.Info,
+    ),
+)

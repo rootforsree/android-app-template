@@ -13,6 +13,7 @@ import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +33,7 @@ import com.sreecharan.apptemplate.ui.components.SkeletonList
 import com.sreecharan.apptemplate.ui.theme.AppDimens
 import com.sreecharan.apptemplate.ui.theme.AppTypography
 import com.sreecharan.apptemplate.ui.theme.LocalAppColors
+import com.sreecharan.apptemplate.ui.theme.AppColors
 import com.sreecharan.apptemplate.ui.theme.rememberHapticTick
 import java.time.Instant
 import java.time.ZoneId
@@ -68,21 +70,7 @@ fun HomeScreenContent(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.home_title),
-                        style = AppTypography.largeTitle,
-                    )
-                },
-                scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = colors.groupedBackground,
-                    scrolledContainerColor = colors.groupedBackground,
-                ),
-            )
-        },
+        topBar = { HomeTopBar(scrollBehavior = scrollBehavior, colors = colors) },
         containerColor = colors.groupedBackground,
     ) { padding ->
         if (state.isLoading) {
@@ -107,33 +95,48 @@ fun HomeScreenContent(
                         bottom = padding.calculateBottomPadding(),
                     ),
             ) {
-                val message = state.errorMessage
-                when {
-                    message != null -> ErrorState(
-                        message = message,
-                        onRetry = onRetry,
-                        modifier = Modifier.padding(bottom = AppDimens.tabBarClearance),
-                    )
-                    state.notes.isEmpty() -> EmptyState(
-                        message = stringResource(R.string.home_empty_message),
-                        actionLabel = stringResource(R.string.action_refresh),
-                        onAction = onRefresh,
-                        icon = Icons.Outlined.Description,
-                        modifier = Modifier.padding(bottom = AppDimens.tabBarClearance),
-                    )
-                    else -> InsetGroupedList(
-                        contentPadding = PaddingValues(bottom = AppDimens.tabBarClearance),
-                    ) {
-                        items(
-                            state.notes,
-                            key = { note -> note.id },
-                            contentType = { "note" },
-                        ) { note ->
-                            GroupCard {
-                                NoteRow(note = note)
-                            }
-                        }
-                    }
+                HomeContent(
+                    state = state,
+                    onRefresh = onRefresh,
+                    onRetry = onRetry,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun HomeContent(
+    state: HomeUiState,
+    onRefresh: () -> Unit,
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val colors = LocalAppColors.current
+    val message = state.errorMessage
+    when {
+        message != null -> ErrorState(
+            message = message,
+            onRetry = onRetry,
+            modifier = modifier.padding(bottom = AppDimens.tabBarClearance),
+        )
+        state.notes.isEmpty() -> EmptyState(
+            message = stringResource(R.string.home_empty_message),
+            actionLabel = stringResource(R.string.action_refresh),
+            onAction = onRefresh,
+            icon = Icons.Outlined.Description,
+            modifier = modifier.padding(bottom = AppDimens.tabBarClearance),
+        )
+        else -> InsetGroupedList(
+            contentPadding = PaddingValues(bottom = AppDimens.tabBarClearance),
+        ) {
+            items(
+                state.notes,
+                key = { note -> note.id },
+                contentType = { "note" },
+            ) { note ->
+                GroupCard {
+                    NoteRow(note = note)
                 }
             }
         }
@@ -177,3 +180,24 @@ private fun formatNoteDate(epochMillis: Long): String =
         .atZone(ZoneId.systemDefault())
         .toLocalDate()
         .format(DateTimeFormatter.ofPattern("MMM d, yyyy", Locale.getDefault()))
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun HomeTopBar(
+    scrollBehavior: TopAppBarScrollBehavior,
+    colors: AppColors,
+) {
+    LargeTopAppBar(
+        title = {
+            Text(
+                text = stringResource(R.string.home_title),
+                style = AppTypography.largeTitle,
+            )
+        },
+        scrollBehavior = scrollBehavior,
+        colors = TopAppBarDefaults.largeTopAppBarColors(
+            containerColor = colors.groupedBackground,
+            scrolledContainerColor = colors.groupedBackground,
+        ),
+    )
+}
