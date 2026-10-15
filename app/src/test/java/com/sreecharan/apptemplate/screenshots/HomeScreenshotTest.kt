@@ -4,7 +4,6 @@ import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.RoborazziTaskType
 import com.github.takahirom.roborazzi.captureRoboImage
-import com.github.takahirom.roborazzi.roborazziSystemPropertyOutputDirectory
 import com.sreecharan.apptemplate.data.model.Note
 import com.sreecharan.apptemplate.ui.home.HomeScreenContent
 import com.sreecharan.apptemplate.ui.home.HomeUiState
@@ -14,7 +13,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.GraphicsMode
-import java.io.File
 
 /**
  * Roborazzi golden tests for the home screen.
@@ -89,14 +87,12 @@ class HomeScreenshotTest {
         name: String,
     ) {
         // Write goldens where the Screenshots workflow uploads them from.
-        // The plugin's output dir may be absolute or relative to the module dir.
         // Record mode is set explicitly: the Gradle plugin's system properties
         // do not reliably reach the test JVM.
-        val configuredDir = roborazziSystemPropertyOutputDirectory()
-        val userDir = System.getProperty("user.dir") ?: "."
-        val outputDir = if (File(configuredDir).isAbsolute) configuredDir else "$userDir/$configuredDir"
+        // Note: filePath is a simple name; the Roborazzi plugin's output dir
+        // (roborazzi.output.dir) determines the actual location.
         captureRoboImage(
-            filePath = "$outputDir/$name",
+            filePath = name,
             roborazziOptions = RoborazziOptions(taskType = RoborazziTaskType.Record),
         ) {
             AppTheme(darkTheme = darkTheme, hapticsEnabled = false) {
