@@ -2,11 +2,11 @@ package com.sreecharan.apptemplate.screenshots
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
+import com.github.takahirom.roborazzi.captureRoboImage
 import com.sreecharan.apptemplate.data.model.Note
 import com.sreecharan.apptemplate.ui.home.HomeScreenContent // ASSUMPTION: UI worker places this in ui.home
 import com.sreecharan.apptemplate.ui.home.HomeUiState
 import com.sreecharan.apptemplate.ui.theme.AppTheme
-import io.github.takahirom.roborazzi.captureRoboImage
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test

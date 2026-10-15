@@ -2,9 +2,9 @@ package com.sreecharan.apptemplate.screenshots
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
+import com.github.takahirom.roborazzi.captureRoboImage
 import com.sreecharan.apptemplate.ui.about.AboutScreenContent // ASSUMPTION: UI worker places this in ui.about
 import com.sreecharan.apptemplate.ui.theme.AppTheme
-import io.github.takahirom.roborazzi.captureRoboImage
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

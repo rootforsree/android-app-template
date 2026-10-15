@@ -90,6 +90,16 @@ ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
 }
 
+// Room writes every variant's schema JSON to the same directory above. With
+// org.gradle.parallel=true, concurrent KSP tasks (kspDebugKotlin vs
+// kspReleaseKotlin) truncate each other's schema file, so serialize them.
+gradle.projectsEvaluated {
+    tasks
+        .filter { it.name.startsWith("ksp") }
+        .sortedBy { it.name }
+        .zipWithNext { first, second -> second.mustRunAfter(first) }
+}
+
 dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
