@@ -1,14 +1,12 @@
 package com.sreecharan.apptemplate.screenshots
 
-import androidx.compose.ui.test.junit4.v2.createComposeRule
-import androidx.compose.ui.test.onRoot
+import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.sreecharan.apptemplate.data.model.Note
-import com.sreecharan.apptemplate.ui.home.HomeScreenContent // ASSUMPTION: UI worker places this in ui.home
+import com.sreecharan.apptemplate.ui.home.HomeScreenContent
 import com.sreecharan.apptemplate.ui.home.HomeUiState
 import com.sreecharan.apptemplate.ui.theme.AppTheme
 import kotlinx.collections.immutable.persistentListOf
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -16,15 +14,14 @@ import org.robolectric.annotation.GraphicsMode
 
 /**
  * Roborazzi golden tests for the home screen.
+ * Uses Roborazzi's composable-lambda capture, which hosts the content in its
+ * own activity, so no compose test rule or manifest entry is needed.
  * All states are fabricated deterministic fixtures; no repository, no network.
- * Verified against Roborazzi 1.70.0 API (pinned in libs.versions.toml) (io.github.takahirom.roborazzi).
  */
+@OptIn(ExperimentalRoborazziApi::class)
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class HomeScreenshotTest {
-    @get:Rule
-    val composeRule = createComposeRule()
-
     private val sampleNotes =
         persistentListOf(
             Note(id = 1, title = "Grocery list", body = "Eggs, milk, coffee", createdAt = 1_700_000_000_000),
@@ -87,7 +84,7 @@ class HomeScreenshotTest {
         state: HomeUiState,
         name: String,
     ) {
-        composeRule.setContent {
+        captureRoboImage(name) {
             AppTheme(darkTheme = darkTheme, hapticsEnabled = false) {
                 HomeScreenContent(
                     state = state,
@@ -96,6 +93,5 @@ class HomeScreenshotTest {
                 )
             }
         }
-        composeRule.onRoot().captureRoboImage(name)
     }
 }

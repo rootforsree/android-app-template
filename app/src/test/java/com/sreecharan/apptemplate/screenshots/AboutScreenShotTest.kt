@@ -1,11 +1,9 @@
 package com.sreecharan.apptemplate.screenshots
 
-import androidx.compose.ui.test.junit4.v2.createComposeRule
-import androidx.compose.ui.test.onRoot
+import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.captureRoboImage
-import com.sreecharan.apptemplate.ui.about.AboutScreenContent // ASSUMPTION: UI worker places this in ui.about
+import com.sreecharan.apptemplate.ui.about.AboutScreenContent
 import com.sreecharan.apptemplate.ui.theme.AppTheme
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -13,16 +11,14 @@ import org.robolectric.annotation.GraphicsMode
 
 /**
  * Roborazzi golden tests for the about screen.
- * AboutScreenContent is owned by the UI worker; this test drives it with a fixed
- * version string so the goldens stay deterministic.
- * Verified against Roborazzi 1.70.0 API (pinned in libs.versions.toml) (io.github.takahirom.roborazzi).
+ * Uses Roborazzi's composable-lambda capture, which hosts the content in its
+ * own activity, so no compose test rule or manifest entry is needed.
+ * AboutScreenContent is driven with a fixed version string so goldens stay deterministic.
  */
+@OptIn(ExperimentalRoborazziApi::class)
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class AboutScreenShotTest {
-    @get:Rule
-    val composeRule = createComposeRule()
-
     @Test
     fun about_light() {
         capture(darkTheme = false, name = "about_light")
@@ -37,7 +33,7 @@ class AboutScreenShotTest {
         darkTheme: Boolean,
         name: String,
     ) {
-        composeRule.setContent {
+        captureRoboImage(name) {
             AppTheme(darkTheme = darkTheme, hapticsEnabled = false) {
                 AboutScreenContent(
                     appVersion = "1.0.0-dev",
@@ -47,6 +43,5 @@ class AboutScreenShotTest {
                 )
             }
         }
-        composeRule.onRoot().captureRoboImage(name)
     }
 }
