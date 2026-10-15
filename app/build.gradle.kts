@@ -130,6 +130,7 @@ dependencies {
     testRuntimeOnly(libs.junit.vintage.engine)
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
+    testImplementation(libs.kotlin.test)
     testImplementation(libs.coroutines.test)
     testImplementation(libs.room.testing)
     testImplementation(libs.roborazzi)
