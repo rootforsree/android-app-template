@@ -3,6 +3,7 @@ package com.sreecharan.apptemplate.screenshots
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.github.takahirom.roborazzi.roborazziSystemPropertyOutputDirectory
+import java.io.File
 import com.sreecharan.apptemplate.data.model.Note
 import com.sreecharan.apptemplate.ui.home.HomeScreenContent
 import com.sreecharan.apptemplate.ui.home.HomeUiState
@@ -88,12 +89,8 @@ class HomeScreenshotTest {
         // Write goldens where the Screenshots workflow uploads them from.
         // The plugin's output dir may be absolute or relative to the module dir.
         val configuredDir = roborazziSystemPropertyOutputDirectory()
-        val outputDir =
-            if (java.io.File(configuredDir).isAbsolute) {
-                configuredDir
-            } else {
-                System.getProperty("user.dir") + "/" + configuredDir
-            }
+        val userDir = System.getProperty("user.dir") ?: "."
+        val outputDir = if (File(configuredDir).isAbsolute) configuredDir else "$userDir/$configuredDir"
         captureRoboImage("$outputDir/$name") {
             AppTheme(darkTheme = darkTheme, hapticsEnabled = false) {
                 HomeScreenContent(
