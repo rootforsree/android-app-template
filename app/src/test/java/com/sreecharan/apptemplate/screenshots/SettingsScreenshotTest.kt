@@ -1,6 +1,8 @@
 package com.sreecharan.apptemplate.screenshots
 
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
+import com.github.takahirom.roborazzi.RoborazziOptions
+import com.github.takahirom.roborazzi.RoborazziTaskType
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.github.takahirom.roborazzi.roborazziSystemPropertyOutputDirectory
 import com.sreecharan.apptemplate.data.model.ThemeMode
@@ -48,10 +50,15 @@ class SettingsScreenshotTest {
     ) {
         // Write goldens where the Screenshots workflow uploads them from.
         // The plugin's output dir may be absolute or relative to the module dir.
+        // Record mode is set explicitly: the Gradle plugin's system properties
+        // do not reliably reach the test JVM.
         val configuredDir = roborazziSystemPropertyOutputDirectory()
         val userDir = System.getProperty("user.dir") ?: "."
         val outputDir = if (File(configuredDir).isAbsolute) configuredDir else "$userDir/$configuredDir"
-        captureRoboImage("$outputDir/$name") {
+        captureRoboImage(
+            filePath = "$outputDir/$name",
+            roborazziOptions = RoborazziOptions(taskType = RoborazziTaskType.Record),
+        ) {
             AppTheme(darkTheme = darkTheme, hapticsEnabled = false) {
                 SettingsScreenContent(
                     state = state,
