@@ -51,11 +51,11 @@ class NotesRepositoryImpl @Inject constructor(
             noteDao.clearAll()
         }
     }
-
-    private fun NoteEntity.toDomain(): Note = Note(
-        id = id,
-        title = title,
-        body = body,
-        createdAt = createdAt,
-    )
 }
+
+private fun NoteEntity.toDomain(): Note = Note(
+    id = id,
+    title = title,
+    body = body,
+    createdAt = createdAt,
+)
