@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <!-- androidx.compose.ui.test.junit4.v2.createComposeRule() hosts test content
+             in android.app.Activity. Robolectric can only start it when it is declared. -->
+        <activity
+            android:name="android.app.Activity"
+            android:exported="false" />
+    </application>
+
+</manifest>
