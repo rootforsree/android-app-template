@@ -85,9 +85,15 @@ class HomeScreenshotTest {
         state: HomeUiState,
         name: String,
     ) {
-        // Write into the Roborazzi task output dir so the Screenshots workflow
-        // can upload the goldens; the path is relative to the module directory.
-        val outputDir = roborazziSystemPropertyOutputDirectory()
+        // Write goldens where the Screenshots workflow uploads them from.
+        // The plugin's output dir may be absolute or relative to the module dir.
+        val configuredDir = roborazziSystemPropertyOutputDirectory()
+        val outputDir =
+            if (java.io.File(configuredDir).isAbsolute) {
+                configuredDir
+            } else {
+                System.getProperty("user.dir") + "/" + configuredDir
+            }
         captureRoboImage("$outputDir/$name") {
             AppTheme(darkTheme = darkTheme, hapticsEnabled = false) {
                 HomeScreenContent(
