@@ -196,7 +196,7 @@ private fun HomeTopBar(
             )
         },
         scrollBehavior = scrollBehavior,
-        colors = TopAppBarDefaults.largeTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = colors.groupedBackground,
             scrolledContainerColor = colors.groupedBackground,
         ),
