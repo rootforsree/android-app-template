@@ -76,7 +76,6 @@ fun AboutScreenContent(
                 onOpenGitHub = onOpenGitHub,
                 onShareApp = onShareApp,
                 onRateApp = onRateApp,
-                colors = colors,
             )
         }
     }
@@ -111,7 +110,6 @@ private fun LazyListScope.aboutLinksSection(
     onOpenGitHub: () -> Unit,
     onShareApp: () -> Unit,
     onRateApp: () -> Unit,
-    colors: AppColors,
 ) {
     item(key = "links", contentType = "links") {
         GroupCard {
