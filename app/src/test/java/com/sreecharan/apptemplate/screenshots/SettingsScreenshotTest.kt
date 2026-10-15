@@ -51,6 +51,7 @@ class SettingsScreenshotTest {
         val configuredDir = roborazziSystemPropertyOutputDirectory()
         val userDir = System.getProperty("user.dir") ?: "."
         val outputDir = if (File(configuredDir).isAbsolute) configuredDir else "$userDir/$configuredDir"
+        println("ROBORAZZI_DIAG user.dir=$userDir configuredDir=$configuredDir outputDir=$outputDir record=${System.getProperty("roborazzi.test.record")}")
         captureRoboImage("$outputDir/$name") {
             AppTheme(darkTheme = darkTheme, hapticsEnabled = false) {
                 SettingsScreenContent(
