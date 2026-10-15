@@ -148,12 +148,3 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.compose.ui.test.junit4)
 }
-
-// Roborazzi: ensure record mode reaches the test JVM when the Screenshots
-// workflow runs. The plugin sets this in test.doFirst, but we set it explicitly
-// here for reliability so captureRoboImage actually writes the goldens.
-tasks.withType<Test>().configureEach {
-    if (System.getenv("ROBORAZZI_RECORD") == "true") {
-        systemProperty("roborazzi.test.record", "true")
-    }
-}
