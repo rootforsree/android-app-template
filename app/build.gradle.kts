@@ -148,3 +148,12 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.compose.ui.test.junit4)
 }
+
+// Roborazzi: ensure record mode reaches the test JVM when a record task runs.
+// The plugin sets this in test.doFirst, but we set it explicitly here for
+// reliability so captureRoboImage actually writes the goldens.
+tasks.withType<Test>().configureEach {
+    if (gradle.startParameter.taskNames.any { it.contains("recordRoborazzi", ignoreCase = true) }) {
+        systemProperty("roborazzi.test.record", "true")
+    }
+}
