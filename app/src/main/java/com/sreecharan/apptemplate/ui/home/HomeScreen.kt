@@ -131,10 +131,11 @@ private fun HomeContent(
             contentPadding = PaddingValues(bottom = AppDimens.tabBarClearance),
         ) {
             items(
-                state.notes,
-                key = { note -> note.id },
+                count = state.notes.size,
+                key = { index -> state.notes[index].id },
                 contentType = { "note" },
-            ) { note ->
+            ) { index ->
+                val note = state.notes[index]
                 GroupCard {
                     NoteRow(note = note)
                 }

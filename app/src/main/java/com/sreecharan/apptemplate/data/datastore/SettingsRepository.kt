@@ -17,7 +17,6 @@ data class AppSettings(
 )
 
 interface SettingsRepository {
-
     val settings: Flow<AppSettings>
 
     suspend fun setThemeMode(mode: ThemeMode)
@@ -25,9 +24,11 @@ interface SettingsRepository {
     suspend fun setHapticsEnabled(enabled: Boolean)
 }
 
-class SettingsRepositoryImpl @Inject constructor(
-    private val dataStore: DataStore<SettingsProto>,
-) : SettingsRepository {
+class SettingsRepositoryImpl
+    @Inject
+    constructor(
+        private val dataStore: DataStore<SettingsProto>,
+    ) : SettingsRepository {
 
     override val settings: Flow<AppSettings> = dataStore.data
         .catch { e ->
