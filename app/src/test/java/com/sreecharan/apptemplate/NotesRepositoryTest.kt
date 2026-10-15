@@ -25,16 +25,17 @@ import kotlin.test.assertTrue
  */
 @RunWith(RobolectricTestRunner::class)
 class NotesRepositoryTest {
-
     private lateinit var database: AppDatabase
     private lateinit var repository: NotesRepository
 
     @Before
     fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        database = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .allowMainThreadQueries()
-            .build()
+        database =
+            Room
+                .inMemoryDatabaseBuilder(context, AppDatabase::class.java)
+                .allowMainThreadQueries()
+                .build()
         repository = NotesRepositoryImpl(database.noteDao(), Dispatchers.Unconfined)
     }
 
@@ -44,31 +45,33 @@ class NotesRepositoryTest {
     }
 
     @Test
-    fun `insert emits through observe`() = runTest {
-        repository.observeNotes().test {
-            assertTrue(awaitItem().isEmpty())
+    fun `insert emits through observe`() =
+        runTest {
+            repository.observeNotes().test {
+                assertTrue(awaitItem().isEmpty())
 
-            repository.addSampleNote()
+                repository.addSampleNote()
 
-            val notes = awaitItem()
-            assertEquals(1, notes.size)
-            assertEquals("Sample note", notes.first().title)
-            assertEquals(
-                "This is a sample note. Delete me and build something great.",
-                notes.first().body,
-            )
-            cancelAndIgnoreRemainingEvents()
+                val notes = awaitItem()
+                assertEquals(1, notes.size)
+                assertEquals("Sample note", notes.first().title)
+                assertEquals(
+                    "This is a sample note. Delete me and build something great.",
+                    notes.first().body,
+                )
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `clear removes all notes`() = runTest {
-        repository.addSampleNote()
-        repository.clearNotes()
+    fun `clear removes all notes`() =
+        runTest {
+            repository.addSampleNote()
+            repository.clearNotes()
 
-        repository.observeNotes().test {
-            assertTrue(awaitItem().isEmpty())
-            cancelAndIgnoreRemainingEvents()
+            repository.observeNotes().test {
+                assertTrue(awaitItem().isEmpty())
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 }

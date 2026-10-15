@@ -23,7 +23,6 @@ import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelTest {
-
     private val testDispatcher = StandardTestDispatcher()
     private val notesFlow = MutableStateFlow<List<Note>>(emptyList())
     private lateinit var notesRepository: NotesRepository
@@ -43,49 +42,52 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `emits loading then notes`() = runTest(testDispatcher) {
-        val notes = listOf(Note(id = 1, title = "First", body = "Body", createdAt = 1_000))
+    fun `emits loading then notes`() =
+        runTest(testDispatcher) {
+            val notes = listOf(Note(id = 1, title = "First", body = "Body", createdAt = 1_000))
 
-        viewModel.uiState.test {
-            assertEquals(HomeUiState(isLoading = true), awaitItem())
+            viewModel.uiState.test {
+                assertEquals(HomeUiState(isLoading = true), awaitItem())
 
-            notesFlow.value = notes
+                notesFlow.value = notes
 
-            val loaded = awaitItem()
-            assertFalse(loaded.isLoading)
-            assertEquals(1, loaded.notes.size)
-            assertEquals("First", loaded.notes.first().title)
-            cancelAndIgnoreRemainingEvents()
+                val loaded = awaitItem()
+                assertFalse(loaded.isLoading)
+                assertEquals(1, loaded.notes.size)
+                assertEquals("First", loaded.notes.first().title)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `refresh toggles isRefreshing true then false`() = runTest(testDispatcher) {
-        viewModel.uiState.test {
-            assertTrue(awaitItem().isLoading)
-            assertFalse(awaitItem().isRefreshing)
+    fun `refresh toggles isRefreshing true then false`() =
+        runTest(testDispatcher) {
+            viewModel.uiState.test {
+                assertTrue(awaitItem().isLoading)
+                assertFalse(awaitItem().isRefreshing)
 
-            viewModel.onRefresh()
+                viewModel.onRefresh()
 
-            assertTrue(awaitItem().isRefreshing)
-            assertFalse(awaitItem().isRefreshing)
-            cancelAndIgnoreRemainingEvents()
+                assertTrue(awaitItem().isRefreshing)
+                assertFalse(awaitItem().isRefreshing)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `retry re-triggers load`() = runTest(testDispatcher) {
-        viewModel.uiState.test {
-            assertTrue(awaitItem().isLoading)
-            assertFalse(awaitItem().isRefreshing)
+    fun `retry re-triggers load`() =
+        runTest(testDispatcher) {
+            viewModel.uiState.test {
+                assertTrue(awaitItem().isLoading)
+                assertFalse(awaitItem().isRefreshing)
 
-            viewModel.onRetry()
+                viewModel.onRetry()
 
-            assertTrue(awaitItem().isRefreshing)
-            val done = awaitItem()
-            assertFalse(done.isRefreshing)
-            assertFalse(done.isLoading)
-            cancelAndIgnoreRemainingEvents()
+                assertTrue(awaitItem().isRefreshing)
+                val done = awaitItem()
+                assertFalse(done.isRefreshing)
+                assertFalse(done.isLoading)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 }

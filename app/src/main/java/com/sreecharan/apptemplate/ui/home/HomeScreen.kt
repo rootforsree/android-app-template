@@ -30,10 +30,10 @@ import com.sreecharan.apptemplate.ui.components.ErrorState
 import com.sreecharan.apptemplate.ui.components.GroupCard
 import com.sreecharan.apptemplate.ui.components.InsetGroupedList
 import com.sreecharan.apptemplate.ui.components.SkeletonList
+import com.sreecharan.apptemplate.ui.theme.AppColors
 import com.sreecharan.apptemplate.ui.theme.AppDimens
 import com.sreecharan.apptemplate.ui.theme.AppTypography
 import com.sreecharan.apptemplate.ui.theme.LocalAppColors
-import com.sreecharan.apptemplate.ui.theme.AppColors
 import com.sreecharan.apptemplate.ui.theme.rememberHapticTick
 import java.time.Instant
 import java.time.ZoneId
@@ -46,9 +46,7 @@ import java.util.Locale
  * stateless and never sees the ViewModel.
  */
 @Composable
-fun HomeRoute(
-    viewModel: HomeViewModel = hiltViewModel(),
-) {
+fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     HomeScreenContent(
         state = state,
@@ -75,10 +73,11 @@ fun HomeScreenContent(
     ) { padding ->
         if (state.isLoading) {
             SkeletonList(
-                contentPadding = PaddingValues(
-                    top = padding.calculateTopPadding(),
-                    bottom = padding.calculateBottomPadding() + AppDimens.tabBarClearance,
-                ),
+                contentPadding =
+                    PaddingValues(
+                        top = padding.calculateTopPadding(),
+                        bottom = padding.calculateBottomPadding() + AppDimens.tabBarClearance,
+                    ),
             )
         } else {
             PullToRefreshBox(
@@ -87,13 +86,14 @@ fun HomeScreenContent(
                     tick()
                     onRefresh()
                 },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(colors.groupedBackground)
-                    .padding(
-                        top = padding.calculateTopPadding(),
-                        bottom = padding.calculateBottomPadding(),
-                    ),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(colors.groupedBackground)
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                            bottom = padding.calculateBottomPadding(),
+                        ),
             ) {
                 HomeContent(
                     state = state,
@@ -115,29 +115,37 @@ private fun HomeContent(
     val colors = LocalAppColors.current
     val message = state.errorMessage
     when {
-        message != null -> ErrorState(
-            message = message,
-            onRetry = onRetry,
-            modifier = modifier.padding(bottom = AppDimens.tabBarClearance),
-        )
-        state.notes.isEmpty() -> EmptyState(
-            message = stringResource(R.string.home_empty_message),
-            actionLabel = stringResource(R.string.action_refresh),
-            onAction = onRefresh,
-            icon = Icons.Outlined.Description,
-            modifier = modifier.padding(bottom = AppDimens.tabBarClearance),
-        )
-        else -> InsetGroupedList(
-            contentPadding = PaddingValues(bottom = AppDimens.tabBarClearance),
-        ) {
-            items(
-                count = state.notes.size,
-                key = { index -> state.notes[index].id },
-                contentType = { "note" },
-            ) { index ->
-                val note = state.notes[index]
-                GroupCard {
-                    NoteRow(note = note)
+        message != null -> {
+            ErrorState(
+                message = message,
+                onRetry = onRetry,
+                modifier = modifier.padding(bottom = AppDimens.tabBarClearance),
+            )
+        }
+
+        state.notes.isEmpty() -> {
+            EmptyState(
+                message = stringResource(R.string.home_empty_message),
+                actionLabel = stringResource(R.string.action_refresh),
+                onAction = onRefresh,
+                icon = Icons.Outlined.Description,
+                modifier = modifier.padding(bottom = AppDimens.tabBarClearance),
+            )
+        }
+
+        else -> {
+            InsetGroupedList(
+                contentPadding = PaddingValues(bottom = AppDimens.tabBarClearance),
+            ) {
+                items(
+                    count = state.notes.size,
+                    key = { index -> state.notes[index].id },
+                    contentType = { "note" },
+                ) { index ->
+                    val note = state.notes[index]
+                    GroupCard {
+                        NoteRow(note = note)
+                    }
                 }
             }
         }
@@ -177,7 +185,8 @@ private fun NoteRow(
 }
 
 private fun formatNoteDate(epochMillis: Long): String =
-    Instant.ofEpochMilli(epochMillis)
+    Instant
+        .ofEpochMilli(epochMillis)
         .atZone(ZoneId.systemDefault())
         .toLocalDate()
         .format(DateTimeFormatter.ofPattern("MMM d, yyyy", Locale.getDefault()))
@@ -196,9 +205,10 @@ private fun HomeTopBar(
             )
         },
         scrollBehavior = scrollBehavior,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = colors.groupedBackground,
-            scrolledContainerColor = colors.groupedBackground,
-        ),
+        colors =
+            TopAppBarDefaults.topAppBarColors(
+                containerColor = colors.groupedBackground,
+                scrolledContainerColor = colors.groupedBackground,
+            ),
     )
 }

@@ -19,10 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import com.sreecharan.apptemplate.ui.theme.AppColors
 import com.sreecharan.apptemplate.ui.theme.AppDimens
 import com.sreecharan.apptemplate.ui.theme.AppTypography
 import com.sreecharan.apptemplate.ui.theme.LocalAppColors
-import com.sreecharan.apptemplate.ui.theme.AppColors
 import com.sreecharan.apptemplate.ui.theme.rememberHapticTick
 
 /**
@@ -47,31 +47,33 @@ fun SettingsRow(
 ) {
     val colors = LocalAppColors.current
     val tick = rememberHapticTick()
-    val description = contentDescription ?: buildString {
-        append(title)
-        if (subtitle != null) {
-            append(", ")
-            append(subtitle)
-        }
-    }
-    val interaction = interactionModifier(
-        toggleableValue = toggleableValue,
-        selectableSelected = selectableSelected,
-        onClick = onClick,
-        tick = tick,
-    )
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .defaultMinSize(minHeight = AppDimens.rowMinHeight)
-            .then(interaction)
-            .semantics(mergeDescendants = true) {
-                this.contentDescription = description
+    val description =
+        contentDescription ?: buildString {
+            append(title)
+            if (subtitle != null) {
+                append(", ")
+                append(subtitle)
             }
-            .padding(
-                horizontal = AppDimens.rowHorizontalPadding,
-                vertical = AppDimens.rowVerticalPadding,
-            ),
+        }
+    val interaction =
+        interactionModifier(
+            toggleableValue = toggleableValue,
+            selectableSelected = selectableSelected,
+            onClick = onClick,
+            tick = tick,
+        )
+    Row(
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .defaultMinSize(minHeight = AppDimens.rowMinHeight)
+                .then(interaction)
+                .semantics(mergeDescendants = true) {
+                    this.contentDescription = description
+                }.padding(
+                    horizontal = AppDimens.rowHorizontalPadding,
+                    vertical = AppDimens.rowVerticalPadding,
+                ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(AppDimens.spacing12),
     ) {
@@ -122,29 +124,41 @@ private fun interactionModifier(
     selectableSelected: Boolean?,
     onClick: (() -> Unit)?,
     tick: () -> Unit,
-): Modifier = when {
-    toggleableValue != null -> Modifier.toggleable(
-        value = toggleableValue,
-        role = Role.Switch,
-        onValueChange = {
-            tick()
-            onClick?.invoke()
-        },
-    )
-    selectableSelected != null -> Modifier.selectable(
-        selected = selectableSelected,
-        role = Role.RadioButton,
-        onClick = {
-            tick()
-            onClick?.invoke()
-        },
-    )
-    onClick != null -> Modifier.clickable(
-        role = Role.Button,
-        onClick = {
-            tick()
-            onClick()
-        },
-    )
-    else -> Modifier
-}
+): Modifier =
+    when {
+        toggleableValue != null -> {
+            Modifier.toggleable(
+                value = toggleableValue,
+                role = Role.Switch,
+                onValueChange = {
+                    tick()
+                    onClick?.invoke()
+                },
+            )
+        }
+
+        selectableSelected != null -> {
+            Modifier.selectable(
+                selected = selectableSelected,
+                role = Role.RadioButton,
+                onClick = {
+                    tick()
+                    onClick?.invoke()
+                },
+            )
+        }
+
+        onClick != null -> {
+            Modifier.clickable(
+                role = Role.Button,
+                onClick = {
+                    tick()
+                    onClick()
+                },
+            )
+        }
+
+        else -> {
+            Modifier
+        }
+    }

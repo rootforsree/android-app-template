@@ -18,43 +18,44 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    notesRepository: NotesRepository,
-    @IoDispatcher ioDispatcher: CoroutineDispatcher,
-) : ViewModel() {
+class HomeViewModel
+    @Inject
+    constructor(
+        notesRepository: NotesRepository,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
+    ) : ViewModel() {
+        private val isRefreshingFlow = MutableStateFlow(false)
 
-    private val isRefreshingFlow = MutableStateFlow(false)
+        val uiState: StateFlow<HomeUiState> =
+            combine(
+                notesRepository.observeNotes(),
+                isRefreshingFlow,
+            ) { notes, isRefreshing ->
+                HomeUiState(
+                    isLoading = false,
+                    notes = notes.toImmutableList(),
+                    isRefreshing = isRefreshing,
+                )
+            }.flowOn(ioDispatcher)
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5_000),
+                    initialValue = HomeUiState(isLoading = true),
+                )
 
-    val uiState: StateFlow<HomeUiState> field = combine(
-        notesRepository.observeNotes(),
-        isRefreshingFlow,
-    ) { notes, isRefreshing ->
-        HomeUiState(
-            isLoading = false,
-            notes = notes.toImmutableList(),
-            isRefreshing = isRefreshing,
-        )
-    }
-        .flowOn(ioDispatcher)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = HomeUiState(isLoading = true),
-        )
+        fun onRefresh() {
+            viewModelScope.launch {
+                isRefreshingFlow.value = true
+                delay(REFRESH_INDICATION_MS)
+                isRefreshingFlow.value = false
+            }
+        }
 
-    fun onRefresh() {
-        viewModelScope.launch {
-            isRefreshingFlow.value = true
-            delay(REFRESH_INDICATION_MS)
-            isRefreshingFlow.value = false
+        fun onRetry() {
+            onRefresh()
+        }
+
+        companion object {
+            private const val REFRESH_INDICATION_MS = 800L
         }
     }
-
-    fun onRetry() {
-        onRefresh()
-    }
-
-    companion object {
-        private const val REFRESH_INDICATION_MS = 800L
-    }
-}

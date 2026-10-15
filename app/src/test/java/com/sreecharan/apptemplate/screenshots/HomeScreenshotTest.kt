@@ -21,15 +21,15 @@ import org.robolectric.annotation.GraphicsMode
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class HomeScreenshotTest {
-
     @get:Rule
     val composeRule = createComposeRule()
 
-    private val sampleNotes = persistentListOf(
-        Note(id = 1, title = "Grocery list", body = "Eggs, milk, coffee", createdAt = 1_700_000_000_000),
-        Note(id = 2, title = "Ideas", body = "Build the thing", createdAt = 1_700_000_001_000),
-        Note(id = 3, title = "Reminder", body = "Call mom", createdAt = 1_700_000_002_000),
-    )
+    private val sampleNotes =
+        persistentListOf(
+            Note(id = 1, title = "Grocery list", body = "Eggs, milk, coffee", createdAt = 1_700_000_000_000),
+            Note(id = 2, title = "Ideas", body = "Build the thing", createdAt = 1_700_000_001_000),
+            Note(id = 3, title = "Reminder", body = "Call mom", createdAt = 1_700_000_002_000),
+        )
 
     @Test
     fun home_light() {
@@ -71,16 +71,21 @@ class HomeScreenshotTest {
     fun home_error() {
         capture(
             darkTheme = false,
-            state = HomeUiState(
-                isLoading = false,
-                notes = persistentListOf(),
-                errorMessage = "Couldn't load notes. Check your connection and try again.",
-            ),
+            state =
+                HomeUiState(
+                    isLoading = false,
+                    notes = persistentListOf(),
+                    errorMessage = "Couldn't load notes. Check your connection and try again.",
+                ),
             name = "home_error",
         )
     }
 
-    private fun capture(darkTheme: Boolean, state: HomeUiState, name: String) {
+    private fun capture(
+        darkTheme: Boolean,
+        state: HomeUiState,
+        name: String,
+    ) {
         composeRule.setContent {
             AppTheme(darkTheme = darkTheme, hapticsEnabled = false) {
                 HomeScreenContent(

@@ -54,12 +54,13 @@ fun AppNavHost(modifier: Modifier = Modifier) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val destination = backStackEntry?.destination
     val tabs = rememberTabs()
-    val selectedIndex = when {
-        destination?.hasRoute(HomeRoute::class) == true -> 0
-        destination?.hasRoute(SettingsRoute::class) == true -> 1
-        destination?.hasRoute(AboutRoute::class) == true -> 2
-        else -> 0
-    }
+    val selectedIndex =
+        when {
+            destination?.hasRoute(HomeRoute::class) == true -> 0
+            destination?.hasRoute(SettingsRoute::class) == true -> 1
+            destination?.hasRoute(AboutRoute::class) == true -> 2
+            else -> 0
+        }
     Box(modifier = modifier.fillMaxSize()) {
         NavHost(
             navController = navController,
@@ -74,11 +75,12 @@ fun AppNavHost(modifier: Modifier = Modifier) {
             tabs = tabs,
             selectedIndex = selectedIndex,
             onTabSelected = { index ->
-                val route: Any = when (index) {
-                    0 -> HomeRoute
-                    1 -> SettingsRoute
-                    else -> AboutRoute
-                }
+                val route: Any =
+                    when (index) {
+                        0 -> HomeRoute
+                        1 -> SettingsRoute
+                        else -> AboutRoute
+                    }
                 navController.navigate(route) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true
@@ -87,33 +89,35 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                     restoreState = true
                 }
             },
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    start = AppDimens.screenMargin,
-                    end = AppDimens.screenMargin,
-                    bottom = AppDimens.screenMargin,
-                ),
+            modifier =
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        start = AppDimens.screenMargin,
+                        end = AppDimens.screenMargin,
+                        bottom = AppDimens.screenMargin,
+                    ),
         )
     }
 }
 
 @Composable
-private fun rememberTabs() = persistentListOf(
-    TabItem(
-        label = stringResource(R.string.tab_home),
-        selectedIcon = Icons.Filled.Home,
-        unselectedIcon = Icons.Outlined.Home,
-    ),
-    TabItem(
-        label = stringResource(R.string.tab_settings),
-        selectedIcon = Icons.Filled.Settings,
-        unselectedIcon = Icons.Outlined.Settings,
-    ),
-    TabItem(
-        label = stringResource(R.string.tab_about),
-        selectedIcon = Icons.Filled.Info,
-        unselectedIcon = Icons.Outlined.Info,
-    ),
-)
+private fun rememberTabs() =
+    persistentListOf(
+        TabItem(
+            label = stringResource(R.string.tab_home),
+            selectedIcon = Icons.Filled.Home,
+            unselectedIcon = Icons.Outlined.Home,
+        ),
+        TabItem(
+            label = stringResource(R.string.tab_settings),
+            selectedIcon = Icons.Filled.Settings,
+            unselectedIcon = Icons.Outlined.Settings,
+        ),
+        TabItem(
+            label = stringResource(R.string.tab_about),
+            selectedIcon = Icons.Filled.Info,
+            unselectedIcon = Icons.Outlined.Info,
+        ),
+    )

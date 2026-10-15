@@ -2,7 +2,6 @@ package com.sreecharan.apptemplate.ui.settings
 
 import android.content.Context
 import android.content.Intent
-import android.provider.Settings as SystemSettings
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.size
@@ -40,16 +39,15 @@ import com.sreecharan.apptemplate.ui.components.InsetGroupedList
 import com.sreecharan.apptemplate.ui.components.RowDivider
 import com.sreecharan.apptemplate.ui.components.SectionHeader
 import com.sreecharan.apptemplate.ui.components.SettingsRow
+import com.sreecharan.apptemplate.ui.theme.AppColors
 import com.sreecharan.apptemplate.ui.theme.AppDimens
 import com.sreecharan.apptemplate.ui.theme.AppTypography
 import com.sreecharan.apptemplate.ui.theme.LocalAppColors
-import com.sreecharan.apptemplate.ui.theme.AppColors
 import kotlinx.collections.immutable.persistentListOf
+import android.provider.Settings as SystemSettings
 
 @Composable
-fun SettingsRoute(
-    viewModel: SettingsViewModel = hiltViewModel(),
-) {
+fun SettingsRoute(viewModel: SettingsViewModel = hiltViewModel()) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     SettingsScreenContent(
@@ -67,26 +65,27 @@ private data class ThemeOption(
     val icon: ImageVector,
 )
 
-private val ThemeOptions = persistentListOf(
-    ThemeOption(
-        mode = ThemeMode.SYSTEM,
-        titleRes = R.string.theme_system,
-        subtitleRes = R.string.theme_system_sub,
-        icon = Icons.Filled.SettingsBrightness,
-    ),
-    ThemeOption(
-        mode = ThemeMode.LIGHT,
-        titleRes = R.string.theme_light,
-        subtitleRes = R.string.theme_light_sub,
-        icon = Icons.Filled.LightMode,
-    ),
-    ThemeOption(
-        mode = ThemeMode.DARK,
-        titleRes = R.string.theme_dark,
-        subtitleRes = R.string.theme_dark_sub,
-        icon = Icons.Filled.DarkMode,
-    ),
-)
+private val ThemeOptions =
+    persistentListOf(
+        ThemeOption(
+            mode = ThemeMode.SYSTEM,
+            titleRes = R.string.theme_system,
+            subtitleRes = R.string.theme_system_sub,
+            icon = Icons.Filled.SettingsBrightness,
+        ),
+        ThemeOption(
+            mode = ThemeMode.LIGHT,
+            titleRes = R.string.theme_light,
+            subtitleRes = R.string.theme_light_sub,
+            icon = Icons.Filled.LightMode,
+        ),
+        ThemeOption(
+            mode = ThemeMode.DARK,
+            titleRes = R.string.theme_dark,
+            subtitleRes = R.string.theme_dark_sub,
+            icon = Icons.Filled.DarkMode,
+        ),
+    )
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -105,10 +104,11 @@ fun SettingsScreenContent(
         containerColor = colors.groupedBackground,
     ) { padding ->
         InsetGroupedList(
-            contentPadding = PaddingValues(
-                top = padding.calculateTopPadding(),
-                bottom = padding.calculateBottomPadding() + AppDimens.tabBarClearance,
-            ),
+            contentPadding =
+                PaddingValues(
+                    top = padding.calculateTopPadding(),
+                    bottom = padding.calculateBottomPadding() + AppDimens.tabBarClearance,
+                ),
         ) {
             appearanceSection(
                 state = state,
@@ -155,9 +155,10 @@ private fun LazyListScope.appearanceSection(
                         RadioButton(
                             selected = selected,
                             onClick = null,
-                            colors = RadioButtonDefaults.colors(
-                                selectedColor = colors.accent,
-                            ),
+                            colors =
+                                RadioButtonDefaults.colors(
+                                    selectedColor = colors.accent,
+                                ),
                         )
                     },
                     selectableSelected = selected,
@@ -226,9 +227,10 @@ private fun LazyListScope.generalSection(
 }
 
 private fun openNotificationSettings(context: Context) {
-    val intent = Intent(SystemSettings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-        putExtra(SystemSettings.EXTRA_APP_PACKAGE, context.packageName)
-    }
+    val intent =
+        Intent(SystemSettings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+            putExtra(SystemSettings.EXTRA_APP_PACKAGE, context.packageName)
+        }
     context.startActivity(intent)
 }
 
@@ -246,9 +248,10 @@ private fun SettingsTopBar(
             )
         },
         scrollBehavior = scrollBehavior,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = colors.groupedBackground,
-            scrolledContainerColor = colors.groupedBackground,
-        ),
+        colors =
+            TopAppBarDefaults.topAppBarColors(
+                containerColor = colors.groupedBackground,
+                scrolledContainerColor = colors.groupedBackground,
+            ),
     )
 }

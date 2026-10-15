@@ -33,10 +33,10 @@ import com.sreecharan.apptemplate.ui.components.GroupCard
 import com.sreecharan.apptemplate.ui.components.InsetGroupedList
 import com.sreecharan.apptemplate.ui.components.RowDivider
 import com.sreecharan.apptemplate.ui.components.SettingsRow
+import com.sreecharan.apptemplate.ui.theme.AppColors
 import com.sreecharan.apptemplate.ui.theme.AppDimens
 import com.sreecharan.apptemplate.ui.theme.AppTypography
 import com.sreecharan.apptemplate.ui.theme.LocalAppColors
-import com.sreecharan.apptemplate.ui.theme.AppColors
 
 @Composable
 fun AboutRoute() {
@@ -66,10 +66,11 @@ fun AboutScreenContent(
         containerColor = colors.groupedBackground,
     ) { padding ->
         InsetGroupedList(
-            contentPadding = PaddingValues(
-                top = padding.calculateTopPadding(),
-                bottom = padding.calculateBottomPadding() + AppDimens.tabBarClearance,
-            ),
+            contentPadding =
+                PaddingValues(
+                    top = padding.calculateTopPadding(),
+                    bottom = padding.calculateBottomPadding() + AppDimens.tabBarClearance,
+                ),
         ) {
             aboutIdentitySection(appVersion = appVersion, colors = colors)
             aboutLinksSection(
@@ -81,7 +82,10 @@ fun AboutScreenContent(
     }
 }
 
-private fun LazyListScope.aboutIdentitySection(appVersion: String, colors: AppColors) {
+private fun LazyListScope.aboutIdentitySection(
+    appVersion: String,
+    colors: AppColors,
+) {
     item(key = "identity", contentType = "identity") {
         GroupCard {
             Column(
@@ -94,10 +98,11 @@ private fun LazyListScope.aboutIdentitySection(appVersion: String, colors: AppCo
                     color = colors.label,
                 )
                 Text(
-                    text = stringResource(
-                        R.string.about_version,
-                        appVersion,
-                    ),
+                    text =
+                        stringResource(
+                            R.string.about_version,
+                            appVersion,
+                        ),
                     style = AppTypography.caption,
                     color = colors.secondaryLabel,
                 )
@@ -168,15 +173,19 @@ private fun linkRow(
     )
 }
 
-private fun openUrl(context: Context, url: String) {
+private fun openUrl(
+    context: Context,
+    url: String,
+) {
     context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 }
 
 private fun shareApp(context: Context) {
-    val send = Intent(Intent.ACTION_SEND).apply {
-        type = "text/plain"
-        putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_text))
-    }
+    val send =
+        Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_text))
+        }
     val chooser = Intent.createChooser(send, context.getString(R.string.share_chooser_title))
     context.startActivity(chooser)
 }
@@ -195,9 +204,10 @@ private fun AboutTopBar(
             )
         },
         scrollBehavior = scrollBehavior,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = colors.groupedBackground,
-            scrolledContainerColor = colors.groupedBackground,
-        ),
+        colors =
+            TopAppBarDefaults.topAppBarColors(
+                containerColor = colors.groupedBackground,
+                scrolledContainerColor = colors.groupedBackground,
+            ),
     )
 }
