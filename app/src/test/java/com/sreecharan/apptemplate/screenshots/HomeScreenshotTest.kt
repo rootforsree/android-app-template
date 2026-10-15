@@ -35,8 +35,7 @@ class HomeScreenshotTest {
     fun home_light() {
         capture(
             darkTheme = false,
-            state = HomeUiState(isLoading = false, notes = sampleNotes),
-            name = "home_light",
+            state = HomeUiState(isLoading = false, notes = sampleNotes)
         )
     }
 
@@ -44,8 +43,7 @@ class HomeScreenshotTest {
     fun home_dark() {
         capture(
             darkTheme = true,
-            state = HomeUiState(isLoading = false, notes = sampleNotes),
-            name = "home_dark",
+            state = HomeUiState(isLoading = false, notes = sampleNotes)
         )
     }
 
@@ -53,8 +51,7 @@ class HomeScreenshotTest {
     fun home_loading() {
         capture(
             darkTheme = false,
-            state = HomeUiState(isLoading = true),
-            name = "home_loading",
+            state = HomeUiState(isLoading = true)
         )
     }
 
@@ -62,8 +59,7 @@ class HomeScreenshotTest {
     fun home_empty() {
         capture(
             darkTheme = false,
-            state = HomeUiState(isLoading = false, notes = persistentListOf()),
-            name = "home_empty",
+            state = HomeUiState(isLoading = false, notes = persistentListOf())
         )
     }
 
@@ -76,23 +72,17 @@ class HomeScreenshotTest {
                     isLoading = false,
                     notes = persistentListOf(),
                     errorMessage = "Couldn't load notes. Check your connection and try again.",
-                ),
-            name = "home_error",
+                )
         )
     }
 
     private fun capture(
         darkTheme: Boolean,
         state: HomeUiState,
-        name: String,
     ) {
-        // Write goldens where the Screenshots workflow uploads them from.
         // Record mode is set explicitly: the Gradle plugin's system properties
         // do not reliably reach the test JVM.
-        // Note: filePath is a simple name; the Roborazzi plugin's output dir
-        // (roborazzi.output.dir) determines the actual location.
         captureRoboImage(
-            filePath = name,
             roborazziOptions = RoborazziOptions(taskType = RoborazziTaskType.Record),
         ) {
             AppTheme(darkTheme = darkTheme, hapticsEnabled = false) {

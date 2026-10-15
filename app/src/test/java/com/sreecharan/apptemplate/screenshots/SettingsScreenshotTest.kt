@@ -27,8 +27,7 @@ class SettingsScreenshotTest {
     fun settings_light() {
         capture(
             darkTheme = false,
-            state = SettingsUiState(),
-            name = "settings_light",
+            state = SettingsUiState()
         )
     }
 
@@ -36,23 +35,17 @@ class SettingsScreenshotTest {
     fun settings_dark() {
         capture(
             darkTheme = true,
-            state = SettingsUiState(themeMode = ThemeMode.DARK, hapticsEnabled = true),
-            name = "settings_dark",
+            state = SettingsUiState(themeMode = ThemeMode.DARK, hapticsEnabled = true)
         )
     }
 
     private fun capture(
         darkTheme: Boolean,
         state: SettingsUiState,
-        name: String,
     ) {
-        // Write goldens where the Screenshots workflow uploads them from.
         // Record mode is set explicitly: the Gradle plugin's system properties
         // do not reliably reach the test JVM.
-        // Note: filePath is a simple name; the Roborazzi plugin's output dir
-        // (roborazzi.output.dir) determines the actual location.
         captureRoboImage(
-            filePath = name,
             roborazziOptions = RoborazziOptions(taskType = RoborazziTaskType.Record),
         ) {
             AppTheme(darkTheme = darkTheme, hapticsEnabled = false) {

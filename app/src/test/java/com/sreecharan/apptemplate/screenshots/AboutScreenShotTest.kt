@@ -23,25 +23,19 @@ import org.robolectric.annotation.GraphicsMode
 class AboutScreenShotTest {
     @Test
     fun about_light() {
-        capture(darkTheme = false, name = "about_light")
+        capture(darkTheme = false)
     }
 
     @Test
     fun about_dark() {
-        capture(darkTheme = true, name = "about_dark")
+        capture(darkTheme = true)
     }
 
-    private fun capture(
-        darkTheme: Boolean,
-        name: String,
-    ) {
+    private fun capture(darkTheme: Boolean) {
         // Write goldens where the Screenshots workflow uploads them from.
         // Record mode is set explicitly: the Gradle plugin's system properties
         // do not reliably reach the test JVM.
-        // Note: filePath is a simple name; the Roborazzi plugin's output dir
-        // (roborazzi.output.dir) determines the actual location.
         captureRoboImage(
-            filePath = name,
             roborazziOptions = RoborazziOptions(taskType = RoborazziTaskType.Record),
         ) {
             AppTheme(darkTheme = darkTheme, hapticsEnabled = false) {
