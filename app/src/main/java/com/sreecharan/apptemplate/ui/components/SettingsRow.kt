@@ -127,7 +127,7 @@ private fun Modifier.interactionModifier(
 ): Modifier =
     when {
         toggleableValue != null -> {
-            Modifier.toggleable(
+            this.toggleable(
                 value = toggleableValue,
                 role = Role.Switch,
                 onValueChange = {
@@ -138,7 +138,7 @@ private fun Modifier.interactionModifier(
         }
 
         selectableSelected != null -> {
-            Modifier.selectable(
+            this.selectable(
                 selected = selectableSelected,
                 role = Role.RadioButton,
                 onClick = {
@@ -149,7 +149,7 @@ private fun Modifier.interactionModifier(
         }
 
         onClick != null -> {
-            Modifier.clickable(
+            this.clickable(
                 role = Role.Button,
                 onClick = {
                     tick()
@@ -159,6 +159,6 @@ private fun Modifier.interactionModifier(
         }
 
         else -> {
-            Modifier
+            this
         }
     }
