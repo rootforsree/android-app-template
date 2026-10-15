@@ -2,6 +2,7 @@ package com.sreecharan.apptemplate.screenshots
 
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.captureRoboImage
+import com.github.takahirom.roborazzi.roborazziSystemPropertyOutputDirectory
 import com.sreecharan.apptemplate.data.model.ThemeMode
 import com.sreecharan.apptemplate.ui.settings.SettingsScreenContent
 import com.sreecharan.apptemplate.ui.settings.SettingsUiState
@@ -44,7 +45,10 @@ class SettingsScreenshotTest {
         state: SettingsUiState,
         name: String,
     ) {
-        captureRoboImage(name) {
+        // Write into the Roborazzi task output dir so the Screenshots workflow
+        // can upload the goldens; the path is relative to the module directory.
+        val outputDir = roborazziSystemPropertyOutputDirectory()
+        captureRoboImage("$outputDir/$name") {
             AppTheme(darkTheme = darkTheme, hapticsEnabled = false) {
                 SettingsScreenContent(
                     state = state,
