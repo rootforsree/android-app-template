@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- API 37 is not vetted for this template yet; 36 is the intentional,
+         tested targetSdk. Revisit once 37 behavior changes are reviewed. -->
+    <issue id="OldTargetApi" severity="ignore" />
+</lint>
