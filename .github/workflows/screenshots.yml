@@ -32,6 +32,8 @@ jobs:
 
       - name: Record Roborazzi goldens
         run: ./gradlew :app:recordRoborazziDebug --stacktrace
+        env:
+          ROBORAZZI_RECORD: "true"
 
       - name: Locate Roborazzi images (diagnostic)
         run: |

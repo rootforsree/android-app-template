@@ -5,10 +5,10 @@ import com.github.takahirom.roborazzi.captureRoboImage
 import com.github.takahirom.roborazzi.roborazziSystemPropertyOutputDirectory
 import com.sreecharan.apptemplate.ui.about.AboutScreenContent
 import com.sreecharan.apptemplate.ui.theme.AppTheme
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.GraphicsMode
-import org.robolectric.junit5.RobolectricExtension
 import java.io.File
 
 /**
@@ -18,7 +18,7 @@ import java.io.File
  * AboutScreenContent is driven with a fixed version string so goldens stay deterministic.
  */
 @OptIn(ExperimentalRoborazziApi::class)
-@ExtendWith(RobolectricExtension::class)
+@RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class AboutScreenShotTest {
     @Test
