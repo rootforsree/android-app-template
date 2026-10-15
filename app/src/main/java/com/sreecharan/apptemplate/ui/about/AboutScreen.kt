@@ -71,19 +71,18 @@ fun AboutScreenContent(
                 bottom = padding.calculateBottomPadding() + AppDimens.tabBarClearance,
             ),
         ) {
-            aboutIdentitySection(appVersion = appVersion)
+            aboutIdentitySection(appVersion = appVersion, colors = colors)
             aboutLinksSection(
                 onOpenGitHub = onOpenGitHub,
                 onShareApp = onShareApp,
                 onRateApp = onRateApp,
+                colors = colors,
             )
         }
     }
 }
 
-@Composable
-private fun LazyListScope.aboutIdentitySection(appVersion: String) {
-    val colors = LocalAppColors.current
+private fun LazyListScope.aboutIdentitySection(appVersion: String, colors: AppColors) {
     item(key = "identity", contentType = "identity") {
         GroupCard {
             Column(
@@ -108,11 +107,11 @@ private fun LazyListScope.aboutIdentitySection(appVersion: String) {
     }
 }
 
-@Composable
 private fun LazyListScope.aboutLinksSection(
     onOpenGitHub: () -> Unit,
     onShareApp: () -> Unit,
     onRateApp: () -> Unit,
+    colors: AppColors,
 ) {
     item(key = "links", contentType = "links") {
         GroupCard {
