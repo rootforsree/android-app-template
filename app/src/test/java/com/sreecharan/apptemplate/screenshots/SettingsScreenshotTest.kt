@@ -27,7 +27,7 @@ class SettingsScreenshotTest {
     fun settings_light() {
         capture(
             darkTheme = false,
-            state = SettingsUiState()
+            state = SettingsUiState(),
         )
     }
 
@@ -35,7 +35,7 @@ class SettingsScreenshotTest {
     fun settings_dark() {
         capture(
             darkTheme = true,
-            state = SettingsUiState(themeMode = ThemeMode.DARK, hapticsEnabled = true)
+            state = SettingsUiState(themeMode = ThemeMode.DARK, hapticsEnabled = true),
         )
     }
 

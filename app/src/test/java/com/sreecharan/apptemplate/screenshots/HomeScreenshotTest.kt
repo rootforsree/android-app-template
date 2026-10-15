@@ -35,7 +35,7 @@ class HomeScreenshotTest {
     fun home_light() {
         capture(
             darkTheme = false,
-            state = HomeUiState(isLoading = false, notes = sampleNotes)
+            state = HomeUiState(isLoading = false, notes = sampleNotes),
         )
     }
 
@@ -43,7 +43,7 @@ class HomeScreenshotTest {
     fun home_dark() {
         capture(
             darkTheme = true,
-            state = HomeUiState(isLoading = false, notes = sampleNotes)
+            state = HomeUiState(isLoading = false, notes = sampleNotes),
         )
     }
 
@@ -51,7 +51,7 @@ class HomeScreenshotTest {
     fun home_loading() {
         capture(
             darkTheme = false,
-            state = HomeUiState(isLoading = true)
+            state = HomeUiState(isLoading = true),
         )
     }
 
@@ -59,7 +59,7 @@ class HomeScreenshotTest {
     fun home_empty() {
         capture(
             darkTheme = false,
-            state = HomeUiState(isLoading = false, notes = persistentListOf())
+            state = HomeUiState(isLoading = false, notes = persistentListOf()),
         )
     }
 
@@ -72,7 +72,7 @@ class HomeScreenshotTest {
                     isLoading = false,
                     notes = persistentListOf(),
                     errorMessage = "Couldn't load notes. Check your connection and try again.",
-                )
+                ),
         )
     }
 
